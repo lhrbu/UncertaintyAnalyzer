@@ -6,6 +6,7 @@ import os
 import sys
 from json import *
 from collections import namedtuple
+from types import SimpleNamespace
 
 def CreateTaskDispatchMessage():
     parser = argparse.ArgumentParser()
@@ -15,6 +16,7 @@ def CreateTaskDispatchMessage():
     parser.add_argument("-md",type=str,help="module name")
     parser.add_argument("-mt",type=str,help="method name in module")
     args = parser.parse_args()
+    SimpleNamespace()
     return TaskDispatchMessage(databaseName=args.d,
         tableName=args.t, testId=args.i,
         calculateModuleName=args.md, calculateMethodName=args.mt)
@@ -26,7 +28,8 @@ def main():
     else:
         with open("msg.json","rb") as file:
             dictValues = json.load(file)
-            taskDispatchMessage = namedtuple("TaskDispatchMessage",dictValues.keys())(*dictValues.values())
+            taskDispatchMessage = SimpleNamespace(**dictValues)
+            # taskDispatchMessage = namedtuple("TaskDispatchMessage",dictValues.keys())(*dictValues.values())
         
     print(TaskDispatchService.Dispatch(taskDispatchMessage))
     os.system("pause")
