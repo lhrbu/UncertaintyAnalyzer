@@ -1,4 +1,5 @@
+from DbConnectConfig import DbConnectConfig
 import numpy
 
-def Invoke(values:tuple[float]):
-    return len(values)
+def Invoke(dbConfigs:DbConnectConfig):
+    return 123456

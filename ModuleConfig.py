@@ -1,9 +1,8 @@
+from typing import Tuple
+
+
 class ModuleConfig:
-    def __init__(self,testId:int,
-        moduleName:str,methodName:str):
-        self.TestId = testId
+    def __init__(self,moduleName:str):
         self.ModuleName = moduleName
-        self.MethodName = methodName
-    TestId:int
     ModuleName:str
-    MethodName:str
+    EntryMethod:str

@@ -1,38 +1,39 @@
+from WorkflowService import WorkflowSerivce
+from WorkflowConfig import WorkflowConfig
+from ast import Num
+from ModuleConfig import ModuleConfig
 import json
-import TaskDispatchService
-from TaskDispatchMessage import *
 import argparse
 import os
 import sys
 from json import *
 from collections import namedtuple
+import jsonpickle
 from types import SimpleNamespace
 
-def CreateTaskDispatchMessage():
+
+class JsonSerializerHook:
+    @classmethod
+    def FromDict(cls, dict):
+        obj = cls()
+        obj.__dict__.update(dict)
+        return obj
+
+def LoadArgs():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-d",type=str,help="database name")
-    parser.add_argument("-t",type=str,help="table name")
-    parser.add_argument("-i",type=int,help="test id")
-    parser.add_argument("-md",type=str,help="module name")
-    parser.add_argument("-mt",type=str,help="method name in module")
-    args = parser.parse_args()
-    SimpleNamespace()
-    return TaskDispatchMessage(databaseName=args.d,
-        tableName=args.t, testId=args.i,
-        calculateModuleName=args.md, calculateMethodName=args.mt)
+    parser.add_argument("-f",type=str,help="workflow config json file")
+    return parser.parse_args() 
+
+
 
 def main():
-    taskDispatchMessage = None
-    if len(sys.argv)>=5:
-        taskDispatchMessage = CreateTaskDispatchMessage()
-    else:
-        with open("msg.json","rb") as file:
-            dictValues = json.load(file)
-            taskDispatchMessage = SimpleNamespace(**dictValues)
-            # taskDispatchMessage = namedtuple("TaskDispatchMessage",dictValues.keys())(*dictValues.values())
-        
-    print(TaskDispatchService.Dispatch(taskDispatchMessage))
-    os.system("pause")
+    args = LoadArgs()
+    workflowFilePath = "workflow.json" if not args.f else args.f
+    with open(workflowFilePath) as file:
+        workflowConfig:WorkflowConfig  = json.load(file,object_hook=JsonSerializerHook.FromDict)
+        workflowService = WorkflowSerivce()
+        value = workflowService.Start(workflowConfig)
+        print(value)
 
 if __name__ == "__main__":
     main()

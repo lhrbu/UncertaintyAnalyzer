@@ -1,7 +1,0 @@
-{
-    "DatabaseName":"ponydemo",
-    "TableName":"car",
-    "TestId":2,
-    "CalculateModuleName":"scripts.Demo",
-    "CalculateMethodName":"Invoke"
-}

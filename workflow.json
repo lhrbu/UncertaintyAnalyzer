@@ -1,0 +1,7 @@
+{
+    "ModuleConfig":{
+        "ModuleName":"scripts.Demo",
+        "EntryMethod":"Invoke"
+    },
+    "DbConfigs":{}
+}
