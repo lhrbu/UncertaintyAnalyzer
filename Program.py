@@ -8,16 +8,9 @@ import os
 import sys
 from json import *
 from collections import namedtuple
-import jsonpickle
 from types import SimpleNamespace
+from JsonSerializerHook import JsonSerializerHook
 
-
-class JsonSerializerHook:
-    @classmethod
-    def FromDict(cls, dict):
-        obj = cls()
-        obj.__dict__.update(dict)
-        return obj
 
 def LoadArgs():
     parser = argparse.ArgumentParser()
