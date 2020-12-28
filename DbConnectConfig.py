@@ -1,3 +1,6 @@
+from typing import Any
+
+
 class DbConnectConfig:
     def __init__(self,databaseName:str,tableName:str,keyColumnName:str,valueColumnName:str):
         self.DatabaseName = databaseName
@@ -8,3 +11,4 @@ class DbConnectConfig:
     TableName:str
     KeyColumnName:str
     ValueColumnName:str
+    KeyValue:Any
